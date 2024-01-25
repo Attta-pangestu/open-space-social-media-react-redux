@@ -5,36 +5,58 @@ STATE
 * authUser
 */
 
+import api from "../../utils/api";
+
 const actionType = {
-    setIsPreload : 'SET_IS_PRELOAD', 
     setAuthUser : 'SET_AUTH_USER',
     unsetAuthUser : 'UNSET_AUTH_USER'
 }
 
-function setIsPrealoadActionCreator(){
-    return {
-        type : actionType.setIsPreload, 
-    }
-}
 
-function setAuthUserActionCreator(token){
+
+function setAuthUserActionCreator(authUser){
     return {
         type : actionType.setAuthUser, 
         payload: {
-            token, 
+            authUser, 
         }
     }
+}
+
+function asyncSetAuthUser({id, password}){
+    return async (dispatch) => {
+        try {
+            const token = await api.login({id,password});
+            api.putAccessToken(token);
+            const authUser = await api.getOwnProfile();
+            
+            // update state
+            dispatch(setAuthUserActionCreator(authUser))
+        }catch(err){
+            alert(err.message);
+        }
+    };
 }
 
 function unsetAuthUserActionCreator() {
     return {
         type : actionType.unsetAuthUser, 
+        payload : null
+    }
+}
+
+function asyncUnsetAuthUser() {
+    return async (dispatch) => {
+        api.putAccessToken('');
+        dispatch(unsetAuthUserActionCreator());
     }
 }
 
 
 export {
-    setIsPrealoadActionCreator,
+    actionType,
     setAuthUserActionCreator,
     unsetAuthUserActionCreator, 
+    asyncSetAuthUser, 
+    asyncUnsetAuthUser,
 }
