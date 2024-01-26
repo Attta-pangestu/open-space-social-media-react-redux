@@ -96,13 +96,12 @@ const api = (() => {
     async function getDetailTalks(id){
         const response = await fetch(`${BASE_URL}/talks/${id}`);
         const responseJSON = await response.json();
-        const {status, message, data : {talks}} = responseJSON;
+        const {status, message, data : {talkDetail}} = responseJSON;
         
         if(status !== 'success') {
             throw new Error(message);
         }
-
-        return talks;
+        return talkDetail;
     }
 
     async function createNewTalk(text, replyTo){
