@@ -20,22 +20,29 @@ const api = (() => {
     }
     
     async function register({id, name, password}) {
-        const response =  await fetch(`${BASE_URL}/users`, {
-            method: 'POST', 
-            headers : {
-                'Content-Type' : 'application/json'
-            }, 
-            body : JSON.stringify({id,name, password}),
-        });
+        try {
+            const response =  await fetch(`${BASE_URL}/users`, {
+                method: 'POST', 
+                headers : {
+                    'Content-Type' : 'application/json'
+                }, 
+                body : JSON.stringify({id,name, password}),
+            });
+    
+            const responseJSON = await response.json();
+            const {status, message} = responseJSON;
+            if(status !== 'success'){
+                throw new Error(message);
+            }
 
-        const responseJSON = response.json();
-        const {status, message} = responseJSON;
+            const {data : {user}} = responseJSON;
+            return user ;
 
-        if(status !== 'success'){
-            throw new Error(message);
+        } catch(err) {
+            alert(err.message);
         }
-        const {data : {user}} = responseJSON;
-        return user ;
+
+        
     }
 
     async function login({id, password}) {

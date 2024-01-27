@@ -1,22 +1,49 @@
+import { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
-
+import { useSelector, useDispatch } from "react-redux";
 // pages
-import LoginPage from "./pages/LoginPage";
+import AuthPage from "./pages/AuthPage";
+
+// action
+import { asyncPreloadProcess } from "./states/isPreload/action";
 
 
 function App() {
+  const {authUser=null, isPreload=true} = useSelector((states) => states );
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(asyncPreloadProcess());
+  }, [dispatch]) ; 
 
 
-  return (
+
+  if(isPreload){
+    return null;
+  }
+
+  if(authUser === null) {
+    return (
+      <>
+        <main>
+          <Routes>
+            <Route path="/*" element={<AuthPage page="login" />} />
+            <Route path="/register" element={<AuthPage page="register" />} />
+          </Routes>
+        </main>
+      </>
+    )
+  }
+  
+  return(
     <>
       <main>
-        <Routes>
-          <Route path="/login" element={<LoginPage page="login" />} />
-          <Route path="/register" element={<LoginPage page="register" />} />
-        </Routes>
+        <section>HAI Kamu udh login</section>
       </main>
     </>
-  )
+    
+  );
+
 }
 
 export default App

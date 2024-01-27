@@ -1,10 +1,23 @@
 import PropTypes from 'prop-types';
 import {IoEarthOutline} from 'react-icons/io5';
+// // store context
+import { useDispatch } from 'react-redux';
+// action
+
+import { asyncRegisterUser } from '../states/users/action';
+
 // component
 import LoginInput from '../components/LoginInput';
+import RegisterInput from '../components/RegisterInput';
 import { Link } from 'react-router-dom';
 
-function LoginPage({page}){
+function AuthPage({page}){
+    const dispatch = useDispatch();
+
+    const registerHandler = ({name, username, password}) => {
+        dispatch(asyncRegisterUser({username, password, id : name}))
+    }
+
     return(
         <section className={page === 'login'? "login-page" : "register-page"}>
             <header className={page === 'login'? "login-page__hero" : "register-page__hero"}>
@@ -24,8 +37,8 @@ function LoginPage({page}){
                         Create Your Account
                     </h2>) 
                 }   
+                {page === "login"? <LoginInput/> : <RegisterInput handler={registerHandler} /> }
                 
-                <LoginInput/>
                 {page === 'login' ?  
                 <p>Don&#39;t have an account? <Link to="/register">Register</Link></p>
                 :
@@ -38,8 +51,8 @@ function LoginPage({page}){
     );
 }
 
-LoginPage.propTypes = {
+AuthPage.propTypes = {
     page : PropTypes.string.isRequired
 }
 
-export default LoginPage;
+export default AuthPage;

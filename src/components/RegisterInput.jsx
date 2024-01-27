@@ -1,13 +1,24 @@
+import { useInput } from "../hooks/useInput";
+import PropTYpes from 'prop-types';
 
-function LoginInput() {
+function RegisterInput({handler}) {
+    const [name, setNameHandler] = useInput('');
+    const [username, setUsernameHandler] = useInput('');
+    const [password, setPasswordHandler] = useInput('');
+
     return(
         <form className="register-input">
-            <input type="text" placeholder="Name" />
-            <input type="text" placeholder="Username" />
-            <input type="password" placeholder="Password" />
-            <button type="button">Register</button>
+            <input type="text" placeholder="Name" value={name} onChange={setNameHandler} />
+            <input type="text" placeholder="Username" value={username} onChange={setUsernameHandler} />
+            <input type="password" placeholder="Password" value={password} onChange={setPasswordHandler} />
+            <button type="button" onClick={() => handler({name, username,password})}>Register</button> 
         </form>
     );
 }
 
-export default LoginInput;
+RegisterInput.propTypes = {
+    handler : PropTYpes.func.isRequired,
+}
+
+
+export default RegisterInput;

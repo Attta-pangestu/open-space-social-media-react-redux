@@ -15,8 +15,9 @@ function talkDetailReducer(talkDetail={}, action={}) {
                         :
                         // add user to likes
                         talkDetail.likes.concat([action.payload.userId]), 
-
             }
+        default: 
+            return talkDetail;
     }
 }
 
