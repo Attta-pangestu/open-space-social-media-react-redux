@@ -11,10 +11,10 @@ const api = (() => {
     }
 
     async function _fetchWithAuth(url, options={}) {
-        return fetch(url, {
+        return await fetch(url, {
             ...options, 
-            headers : {
-                Authorization : `Bearer ${getAccessToken()},`
+            headers: {
+                Authorization: `Bearer ${getAccessToken()}`
             }
         })
     }
@@ -54,9 +54,8 @@ const api = (() => {
             body : JSON.stringify({id, password}),
         });
 
-        const responseJSON = response.json();
+        const responseJSON =  await response.json();
         const {status, message} = responseJSON;
-
         if(status !== 'success'){
             throw new Error(message);
         }
@@ -67,9 +66,8 @@ const api = (() => {
     async function getOwnProfile() {
         const response =  await _fetchWithAuth(`${BASE_URL}/users/me`) ; 
 
-        const responseJSON = response.json();
+        const responseJSON = await response.json();
         const {status, message} = responseJSON;
-
         if(status !== 'success'){
             throw new Error(message);
         }
@@ -130,20 +128,17 @@ const api = (() => {
     }
 
     async function toggleLikeTalk(talkId) {
-        const response = await _fetchWithAuth(`${BASE_URL}/talks/like`, {
-            method : 'POST', 
-            headers : {
-                'Content-Type' : 'application/json'
-            }, 
+        console.log(getAccessToken());
+        const response = await _fetchWithAuth(`${BASE_URL}/talks/likes`, {
+            method : "POST", 
             body : JSON.stringify({talkId}), 
         });
         const responseJSON = await response.json();
-        const {status, message} = responseJSON;
-        
+        const {status, message} =responseJSON;
+        console.log(responseJSON);
         if(status !== 'success') {
             throw new Error(message);
         }
-
     }
 
     return {

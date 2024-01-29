@@ -29,11 +29,12 @@ function asyncSetAuthUser({id, password}){
             const token = await api.login({id,password});
             api.putAccessToken(token);
             const authUser = await api.getOwnProfile();
-            
             // update state
             dispatch(setAuthUserActionCreator(authUser))
+            return {error: false};
         }catch(err){
             alert(err.message);
+            return {error: true};
         }
     };
 }

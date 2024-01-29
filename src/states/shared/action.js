@@ -8,7 +8,6 @@ function asyncPopulateUsersAndTalks() {
             // get data from api
             const users = await api.getAllUsers();
             const talks = await api.getAllTalks();
-            
             //send to state dispatch
             dispatch(receiveUsersActionCreator(users));
             dispatch(receiveTalksActionCreator(talks));

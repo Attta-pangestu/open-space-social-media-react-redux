@@ -26,6 +26,7 @@ function asyncReceiverTalkDetail(id){
         dispatch(clearTalkDetailActionCreator());
         try{
             const talkDetail = await api.getDetailTalks(id);
+            console.log({talkDetail});
             dispatch(receiveTalkDetailActionCreator(talkDetail));
         } catch(err) {
             alert(err.message);
