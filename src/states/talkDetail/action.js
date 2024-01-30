@@ -22,14 +22,15 @@ function receiveTalkDetailActionCreator(talkDetail) {
 
 function asyncReceiverTalkDetail(id){
     return async (dispatch) => {
-        // clear previous talk detail
-        dispatch(clearTalkDetailActionCreator());
+        // // clear previous talk detail
+        // dispatch(clearTalkDetailActionCreator());
+        console.log("memanggil talk detail");
         try{
             const talkDetail = await api.getDetailTalks(id);
             console.log({talkDetail});
             dispatch(receiveTalkDetailActionCreator(talkDetail));
         } catch(err) {
-            alert(err.message);
+            console.log(err);
         }
         
     }
@@ -38,7 +39,7 @@ function asyncReceiverTalkDetail(id){
 
 function clearTalkDetailActionCreator() {
     return {
-        type: actionType.RECEIVE_TALK_DETAIL, 
+        type: actionType.CLEAR_TALK_DETAIL, 
     }
 }
 
@@ -54,13 +55,13 @@ function toggleLikeDetailActionCreator(userId){
 
 function asyncToggleLikeTalkDetail(){
     return async (dispatch, getState) => {
-        const {authUser, talks} =  getState();
+        const {authUser, talkDetail} =  getState();
         // change UI 
         dispatch(toggleLikeDetailActionCreator(authUser.id));
         
         // change the database
         try{
-            await api.toggleLikeTalk(talks.id);
+            await api.toggleLikeTalk(talkDetail.id);
         }catch(err){
             alert(err.message);
             // fallback

@@ -119,7 +119,7 @@ const api = (() => {
         });
         const responseJSON = await response.json();
         const {status, message, data : {talk}} = responseJSON;
-        
+        console.log(responseJSON);
         if(status !== 'success') {
             throw new Error(message);
         }

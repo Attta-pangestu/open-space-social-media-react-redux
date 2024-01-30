@@ -4,7 +4,7 @@ import { useEffect } from "react";
 
 // action
 import { asyncPopulateUsersAndTalks } from "../states/shared/action";
-import { asyncToggleLikeTalk } from "../states/talks/action";
+import { asyncToggleLikeTalk, asyncAddTalk} from "../states/talks/action";
 
 // component
 import TalkList from "../components/TalkList";
@@ -31,13 +31,17 @@ function HomePage() {
     const talkWithUsers = talks.map((talk) => {
         return {
             ...talk,
-            userTalk: users.find((user) => talk.user === user.id),
-            authUser: authUser.id
+            authUser: authUser.id, 
+            userTalk: authUser.id !== talk.user ? users.find((user) => talk.user === user.id) : {...authUser, name: "You" }  ,
         };
         });
 
     const onLikeHandler = async (talkId) => {
         await dispatch(asyncToggleLikeTalk(talkId));
+    }
+
+    const onAddTalkHandler = async () => {
+        dispatch(asyncAddTalk(text));
     }
 
 
@@ -54,7 +58,7 @@ function HomePage() {
             <p className="talk-input__char-left">
             <strong>{text.length}</strong>/320
             </p>
-            <button type="submit">Talk</button>
+            <button type="submit" onClick={onAddTalkHandler} >Talk</button>
         </div>
 
         {/* Talk List */}

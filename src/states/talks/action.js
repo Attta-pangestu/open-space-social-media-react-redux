@@ -50,7 +50,7 @@ function asyncAddTalk(text,replyTo=''){
             const talk = await api.createNewTalk(text,replyTo);
             dispatch(addTalkActionCreator(talk));
         }catch(err){
-            alert(err.message);
+            console.log(err);
         }
 
     } 
