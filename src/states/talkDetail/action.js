@@ -23,8 +23,7 @@ function receiveTalkDetailActionCreator(talkDetail) {
 function asyncReceiverTalkDetail(id){
     return async (dispatch) => {
         // // clear previous talk detail
-        // dispatch(clearTalkDetailActionCreator());
-        console.log("memanggil talk detail");
+        dispatch(clearTalkDetailActionCreator());
         try{
             const talkDetail = await api.getDetailTalks(id);
             console.log({talkDetail});

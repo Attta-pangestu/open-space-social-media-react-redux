@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 
 // component
 import TalkItem from "../components/TalkItem";
+import TalkDetail from "../components/TalkDetail";
 
 // action
 import { asyncReceiverTalkDetail } from "../states/talkDetail/action";
@@ -14,25 +15,14 @@ import api from "../utils/api";
 function DetailPage() {
     const {id} = useParams();
     const dispatch = useDispatch();
-    const {talkDetail=null} = useSelector((states) => states);
+    const {talkDetail=null, authUser} = useSelector((states) => states);
     // const [talkDetail, setTalkDetail] = useState(null);
     
     useEffect(() => {
-        const fetchDetail = async () => {
-            console.log("memanggil use Effect");
-            await dispatch(asyncReceiverTalkDetail(id));
-        };
-        fetchDetail();
+        console.log({id});
+        dispatch(asyncReceiverTalkDetail(id));
     }, [dispatch, id]);
-
-    // useEffect(() => {
-    //     (async() =>{
-    //         const talkDetailData = await api.getDetailTalks(id);
-    //         setTalkDetail(talkDetailData);
-    //         console.log(talkDetail);
-            
-    //     }) ();
-    // }, [])
+    
     
     if(talkDetail === null) {
         return null;
@@ -44,7 +34,7 @@ function DetailPage() {
                 <h3>Replying To</h3>
                 {/* parent */}
                 <TalkItem {...talkDetail.parent} userTalk={talkDetail.parent.user} />
-                <TalkItem {...talkDetail} userTalk={talkDetail.user} />
+                <TalkDetail {...talkDetail} userTalk={talkDetail.user} />
             </div>
         </section>
     );
