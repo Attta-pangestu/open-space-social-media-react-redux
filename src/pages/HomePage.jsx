@@ -1,5 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
+import { useState } from "react";
 
 // action
 import { asyncPopulateUsersAndTalks } from "../states/shared/action";
@@ -12,6 +13,7 @@ import TalkInput from "../components/TalkInput";
 function HomePage() {
     const dispatch = useDispatch();
     const { users=[], talks=[], authUser } = useSelector((states) => states);
+    const [talksWithUsers, setTalksWithUsers] = useState(null);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -21,19 +23,22 @@ function HomePage() {
     }, [dispatch]);
 
 
+
+
     useEffect(() => {
-        console.log("talks has changed");
-    }, [talks])
+        if(talks && users) {
+            setTalksWithUsers(
+                talks.map((talk) => {
+                    return {
+                        ...talk,
+                        authUser: authUser.id, 
+                        userTalk: authUser.id !== talk.user ? users.find((user) => talk.user === user.id) : {...authUser, name: "You" }  ,
+                    };
+                    })
+            );
+        }
+    }, [talks, users, authUser])
 
-
-
-    const talkWithUsers = talks.map((talk) => {
-        return {
-            ...talk,
-            authUser: authUser.id, 
-            userTalk: authUser.id !== talk.user ? users.find((user) => talk.user === user.id) : {...authUser, name: "You" }  ,
-        };
-        });
 
     const onLikeHandler = async (talkId) => {
         await dispatch(asyncToggleLikeTalk(talkId));
@@ -49,7 +54,7 @@ function HomePage() {
         {/* TalkInput */}
         <TalkInput onAddTalkHandler={onAddTalkHandler} />
         {/* Talk List */}
-        <TalkList likeHandler={onLikeHandler} talksList={talkWithUsers}/>
+        {talksWithUsers &&  <TalkList likeHandler={onLikeHandler} talksList={talksWithUsers}/> }
         </section>
     );
     }

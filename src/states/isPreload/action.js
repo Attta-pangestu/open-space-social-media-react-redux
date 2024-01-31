@@ -27,8 +27,8 @@ function asyncPreloadProcess(){
             dispatch(setAuthUserActionCreator(null));
         }finally{
             dispatch(setIsPrealoadActionCreator(false));
+            dispatch(hideLoading());
         }
-        dispatch(hideLoading());
     }
 }
 
