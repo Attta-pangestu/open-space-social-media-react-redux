@@ -8,6 +8,8 @@
 
 import api from "../../utils/api";
 
+
+
 const actionType = {
     RECEIVE_TALKS: 'RECEIVE_TALKS', 
     ADD_TALK : 'ADD_TALK', 

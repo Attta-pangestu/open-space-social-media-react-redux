@@ -23,8 +23,6 @@ function HomePage() {
     }, [dispatch]);
 
 
-
-
     useEffect(() => {
         if(talks && users) {
             setTalksWithUsers(

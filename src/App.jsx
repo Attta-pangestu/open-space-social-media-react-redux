@@ -46,7 +46,7 @@ function App() {
   
   return(
     <>
-      <Loading/>
+        <Loading/>
       <div className="app-container">
         <header>
           <Navigation signOutHandler={signOut} authUser={authUser}/>
