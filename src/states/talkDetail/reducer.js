@@ -1,6 +1,6 @@
 import { actionType } from "./action";
 
-function talkDetailReducer(talkDetail={}, action={}) {
+function talkDetailReducer(talkDetail=null, action={}) {
     switch(action.type) {
         case actionType.RECEIVE_TALK_DETAIL :
             return action.payload.talkDetail;

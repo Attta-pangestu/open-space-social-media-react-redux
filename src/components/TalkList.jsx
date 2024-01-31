@@ -2,7 +2,6 @@ import TalkItem, {talkItemShape} from './TalkItem';
 import PropTypes from 'prop-types';
 
 function TalkList({talksList, likeHandler}){
-    console.log({talksList});
     return (
         <div className="talks-list">
             {talksList.map((talk) => {

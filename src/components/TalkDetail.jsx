@@ -26,7 +26,7 @@ function TalkDetail ({id,text, createdAt,userTalk, authUser, likes, likeHandler 
             </article>
             <footer>
                 <div className='talk-detail__like'>
-                    <button type='button' aria-label='like' onClick={() => onLikeClicked(id)} >
+                    <button type='button' aria-label='like' onClick={onLikeClicked} >
                         {isLiked ? <FaHeart style={{color:'red'}}/> : <FaRegHeart />}
                     </button>
                     <span>
